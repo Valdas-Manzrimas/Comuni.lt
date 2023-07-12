@@ -1,11 +1,8 @@
 import * as React from 'react';
 import {
-  Avatar,
   Button,
   CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Link,
   Grid,
   Box,
@@ -14,8 +11,6 @@ import {
   createTheme,
   ThemeProvider,
 } from '@mui/material';
-
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 const theme = createTheme();
 
