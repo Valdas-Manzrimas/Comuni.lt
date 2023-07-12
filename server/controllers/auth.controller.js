@@ -9,7 +9,8 @@ var bcrypt = require('bcryptjs');
 exports.signup = async (req, res) => {
   try {
     const user = new User({
-      username: req.body.username,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password, 8),
     });
@@ -37,7 +38,7 @@ exports.signup = async (req, res) => {
 
 exports.signin = async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.body.username }).populate(
+    const user = await User.findOne({ email: req.body.email }).populate(
       'roles',
       '-__v'
     );
@@ -69,7 +70,8 @@ exports.signin = async (req, res) => {
 
     res.status(200).send({
       id: user._id,
-      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
       email: user.email,
       roles: authorities,
     });

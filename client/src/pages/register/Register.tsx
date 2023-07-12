@@ -1,4 +1,6 @@
 import * as React from 'react';
+import axiosConfig from '../../config/axiosConfig';
+
 import {
   Avatar,
   Button,
@@ -20,13 +22,37 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 const theme = createTheme();
 
 export default function Register() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+
+    const formData = {
+      firstName: data.get('firstName'),
+      lastName: data.get('lastName'),
       email: data.get('email'),
       password: data.get('password'),
-    });
+    };
+
+    try {
+      const response = await axiosConfig.post('/api/auth/register', formData, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.status === 200) {
+        console.log('User registered successfully!');
+        // Redirect or perform any desired action
+      } else {
+        const errorMessage = response.data.message;
+        console.error('Error registering user:', errorMessage);
+        // Handle the error or display an error message to the user
+      }
+    } catch (error) {
+      console.error('Error registering user:', error);
+      // Handle the error or display an error message to the user
+    }
   };
 
   return (
@@ -101,7 +127,7 @@ export default function Register() {
                   control={
                     <Checkbox value='allowExtraEmails' color='primary' />
                   }
-                  label='I want to receive inspiration, marketing promotions and updates via email.'
+                  label='I am interested in getting more information about this community project.'
                 />
               </Grid>
             </Grid>
