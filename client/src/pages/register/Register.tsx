@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {useState} from 'react';
 import axiosConfig from '../../config/axiosConfig';
 
 import {
@@ -15,6 +15,7 @@ import {
   Container,
   createTheme,
   ThemeProvider,
+  FormLabel,
 } from '@mui/material';
 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -22,6 +23,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 const theme = createTheme();
 
 export default function Register() {
+  const [formValidateError, setFormValidateError] = useState('');
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -41,16 +44,19 @@ export default function Register() {
         },
       });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         console.log('User registered successfully!');
         // Redirect or perform any desired action
       } else {
         const errorMessage = response.data.message;
-        console.error('Error registering user:', errorMessage);
+
+        setFormValidateError(errorMessage)
+        
         // Handle the error or display an error message to the user
       }
-    } catch (error) {
-      console.error('Error registering user:', error);
+    } catch (error: any) {
+      // console.error('Error registering user:', error.response.data.message);
+      setFormValidateError(error.response.data.message)
       // Handle the error or display an error message to the user
     }
   };
@@ -119,15 +125,17 @@ export default function Register() {
                   label='Password'
                   type='password'
                   id='password'
-                  autoComplete='new-password'
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid container item xs={12} pt={0}>
+                <FormLabel error={true} sx={{ fontSize: 14, fontWeight: 'bold', width: '100%', textAlign: 'center' }}>{formValidateError}</FormLabel>
                 <FormControlLabel
+                  sx={{ paddingTop: '1rem', margin: '0 0.25rem 0 1rem'}}
                   control={
                     <Checkbox value='allowExtraEmails' color='primary' />
                   }
                   label='I am interested in getting more information about this community project.'
+                  
                 />
               </Grid>
             </Grid>
