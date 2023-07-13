@@ -1,6 +1,9 @@
-import * as React from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axiosConfig from '../../config/axiosConfig';
-
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import {
   Avatar,
   Button,
@@ -15,42 +18,66 @@ import {
   Container,
   createTheme,
   ThemeProvider,
+  FormLabel,
 } from '@mui/material';
-
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 const theme = createTheme();
 
+const validationSchema = yup.object().shape({
+  firstName: yup.string().required('First Name is required'),
+  lastName: yup.string().required('Last Name is required'),
+  email: yup
+    .string()
+    .required('Email is required')
+    // .email('Please enter a valid email address')
+    .matches(
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      'Please enter a valid email address'
+    ),
+  password: yup
+    .string()
+    .required('Password is required')
+    .min(8, 'Password must be at least 8 characters'),
+});
+
 export default function Register() {
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
+  const [formValidateError, setFormValidateError] = useState('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
 
-    const formData = {
-      firstName: data.get('firstName'),
-      lastName: data.get('lastName'),
-      email: data.get('email'),
-      password: data.get('password'),
-    };
+  const navigate = useNavigate();
 
+  const handleFormSubmit = async (data: any) => {
     try {
-      const response = await axiosConfig.post('/api/auth/register', formData, {
+      const response = await axiosConfig.post('/api/auth/register', data, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         console.log('User registered successfully!');
+        reset();
+        navigate('/');
         // Redirect or perform any desired action
       } else {
         const errorMessage = response.data.message;
-        console.error('Error registering user:', errorMessage);
+        setFormValidateError(errorMessage);
+        reset();
         // Handle the error or display an error message to the user
       }
-    } catch (error) {
-      console.error('Error registering user:', error);
+    } catch (error: any) {
+      console.error('Error registering user:', error.response.data.message);
+      setFormValidateError(error.response?.data?.message);
+      reset();
       // Handle the error or display an error message to the user
     }
   };
@@ -76,14 +103,13 @@ export default function Register() {
           <Box
             component='form'
             noValidate
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(handleFormSubmit)}
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  autoComplete='given-name'
-                  name='firstName'
+                  {...register('firstName')}
                   required
                   fullWidth
                   id='firstName'
@@ -93,37 +119,52 @@ export default function Register() {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  {...register('lastName')}
                   required
                   fullWidth
                   id='lastName'
                   label='Last Name'
-                  name='lastName'
                   autoComplete='family-name'
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  {...register('email')}
+                  error={!!errors.email}
+                  helperText={errors.email?.message}
                   required
                   fullWidth
                   id='email'
                   label='Email Address'
-                  name='email'
                   autoComplete='email'
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  {...register('password')}
+                  error={!!errors.password}
+                  helperText={errors.password?.message}
                   required
                   fullWidth
                   name='password'
                   label='Password'
                   type='password'
-                  id='password'
-                  autoComplete='new-password'
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid container item xs={12} pt={0}>
+                <FormLabel
+                  error={true}
+                  sx={{
+                    fontSize: 14,
+                    fontWeight: 'bold',
+                    width: '100%',
+                    textAlign: 'center',
+                  }}
+                >
+                  {formValidateError}
+                </FormLabel>
                 <FormControlLabel
+                  sx={{ paddingTop: '1rem', margin: '0 0.25rem 0 1rem' }}
                   control={
                     <Checkbox value='allowExtraEmails' color='primary' />
                   }

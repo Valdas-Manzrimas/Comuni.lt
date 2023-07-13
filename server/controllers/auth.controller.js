@@ -74,6 +74,7 @@ exports.signin = async (req, res) => {
       lastName: user.lastName,
       email: user.email,
       roles: authorities,
+      token: token,
     });
   } catch (error) {
     console.error('Error during signin:', error);
