@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+=======
+import {useState} from 'react';
+>>>>>>> 1c549753c5991c9383cb9bcac76e1143929bc992
 import axiosConfig from '../../config/axiosConfig';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -43,6 +47,7 @@ const validationSchema = yup.object().shape({
 
 export default function Register() {
   const [formValidateError, setFormValidateError] = useState('');
+<<<<<<< HEAD
   const {
     register,
     handleSubmit,
@@ -51,6 +56,12 @@ export default function Register() {
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
+=======
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+>>>>>>> 1c549753c5991c9383cb9bcac76e1143929bc992
 
   const navigate = useNavigate();
 
@@ -70,6 +81,7 @@ export default function Register() {
         // Redirect or perform any desired action
       } else {
         const errorMessage = response.data.message;
+<<<<<<< HEAD
         setFormValidateError(errorMessage);
         reset();
         // Handle the error or display an error message to the user
@@ -78,6 +90,16 @@ export default function Register() {
       console.error('Error registering user:', error.response.data.message);
       setFormValidateError(error.response?.data?.message);
       reset();
+=======
+
+        setFormValidateError(errorMessage)
+        
+        // Handle the error or display an error message to the user
+      }
+    } catch (error: any) {
+      // console.error('Error registering user:', error.response.data.message);
+      setFormValidateError(error.response.data.message)
+>>>>>>> 1c549753c5991c9383cb9bcac76e1143929bc992
       // Handle the error or display an error message to the user
     }
   };
@@ -149,6 +171,7 @@ export default function Register() {
                   name='password'
                   label='Password'
                   type='password'
+<<<<<<< HEAD
                 />
               </Grid>
               <Grid container item xs={12} pt={0}>
@@ -165,10 +188,20 @@ export default function Register() {
                 </FormLabel>
                 <FormControlLabel
                   sx={{ paddingTop: '1rem', margin: '0 0.25rem 0 1rem' }}
+=======
+                  id='password'
+                />
+              </Grid>
+              <Grid container item xs={12} pt={0}>
+                <FormLabel error={true} sx={{ fontSize: 14, fontWeight: 'bold', width: '100%', textAlign: 'center' }}>{formValidateError}</FormLabel>
+                <FormControlLabel
+                  sx={{ paddingTop: '1rem', margin: '0 0.25rem 0 1rem'}}
+>>>>>>> 1c549753c5991c9383cb9bcac76e1143929bc992
                   control={
                     <Checkbox value='allowExtraEmails' color='primary' />
                   }
                   label='I am interested in getting more information about this community project.'
+                  
                 />
               </Grid>
             </Grid>
