@@ -23,6 +23,8 @@ import {
 } from '@mui/material';
 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { useAppDispatch } from '../../store/store';
+import { addUser } from '../../store/features/userSlice';
 
 const theme = createTheme();
 
@@ -50,16 +52,12 @@ export default function Register() {
     resolver: yupResolver(validationSchema),
   });
 
+  //Redux
+  const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
 
   const onSubmit = async (data: any) => {
-    // const formData = {
-    //   firstName: data.get('firstName'),
-    //   lastName: data.get('lastName'),
-    //   email: data.get('email'),
-    //   password: data.get('password'),
-    // };
-
     try {
       const response = await axiosConfig.post('/api/auth/register', data, {
         method: 'POST',
@@ -70,8 +68,16 @@ export default function Register() {
 
       if (response.status === 201) {
         console.log('User registered successfully!');
-        reset(); // Clear form fields
-        navigate('/'); // Redirect to home component
+        reset();
+        navigate('/');
+
+        dispatch(
+          addUser({
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+          })
+        );
       } else {
         const errorMessage = response.data.message;
         setFormValidateError(errorMessage);

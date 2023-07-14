@@ -14,6 +14,7 @@ import {
 } from '@mui/material/';
 import MenuIcon from '@mui/icons-material/Menu';
 import AdbIcon from '@mui/icons-material/Adb';
+import { useAppSelector } from '../../../store/store';
 
 const pages = ['Register', 'Login', 'Community'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -25,6 +26,9 @@ function Navbar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+
+  // global state
+  const users = useAppSelector((state) => state.user.users);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -161,6 +165,18 @@ function Navbar() {
               ))}
             </Menu>
           </Box>
+          {users ? (
+            <Box
+              sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}
+              ml={1}
+            >
+              {users.map((user) => (
+                <p key={user.email}>{user.email}</p>
+              ))}
+            </Box>
+          ) : (
+            <></>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
