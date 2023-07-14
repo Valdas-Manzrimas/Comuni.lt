@@ -3,11 +3,7 @@ const ROLES = db.ROLES;
 const User = db.user;
 
 const checkDuplicateEmail = (req, res, next) => {
-<<<<<<< HEAD
   const { email, firstName, lastName, password } = req.body;
-=======
-  const {email, firstName, lastName, password } = req.body;
->>>>>>> 1c549753c5991c9383cb9bcac76e1143929bc992
 
   if (!email) {
     return res.status(400).send({ message: 'Email is required!' });
