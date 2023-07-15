@@ -30,6 +30,11 @@ function Navbar() {
   );
 
   // global state
+  // const currentUser = useAppSelector((state) => {
+  //   console.log(state); // Check the state object to see if it contains the currentUser
+  //   return state.currentUser;
+  // });
+
   const currentUser = useAppSelector((state) => state.currentUser);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -179,16 +184,14 @@ function Navbar() {
               </MenuItem>
             </Menu>
           </Box>
-          {currentUser ? (
+          {currentUser && currentUser.email ? (
             <Box
               sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}
               ml={1}
             >
               <Typography>{currentUser.email}</Typography>
             </Box>
-          ) : (
-            <></>
-          )}
+          ) : null}
         </Toolbar>
       </Container>
     </AppBar>

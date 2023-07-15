@@ -69,8 +69,16 @@ export default function Register() {
       });
 
       if (response.status === 201) {
-        console.log('User registered successfully!');
+        console.log('User registered successfully!', response.data);
         const { id, firstName, lastName, email, token } = response.data;
+
+        dispatch(
+          addUser({
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+          })
+        );
 
         dispatch(
           setCurrentUser({
@@ -78,14 +86,6 @@ export default function Register() {
             firstName,
             lastName,
             email,
-          })
-        );
-
-        dispatch(
-          addUser({
-            firstName: data.firstName,
-            lastName: data.lastName,
-            email: data.email,
           })
         );
 
