@@ -4,6 +4,12 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import userSlice, {
+  addUser,
+  setCurrentUser,
+} from '../../store/features/userSlice';
+import { store, useAppDispatch } from '../../store/store';
 
 import {
   Avatar,
@@ -21,10 +27,6 @@ import {
   ThemeProvider,
   FormLabel,
 } from '@mui/material';
-
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { useAppDispatch } from '../../store/store';
-import { addUser } from '../../store/features/userSlice';
 
 const theme = createTheme();
 
@@ -68,8 +70,16 @@ export default function Register() {
 
       if (response.status === 201) {
         console.log('User registered successfully!');
-        reset();
-        navigate('/');
+        const { id, firstName, lastName, email, token } = response.data;
+
+        dispatch(
+          setCurrentUser({
+            id,
+            firstName,
+            lastName,
+            email,
+          })
+        );
 
         dispatch(
           addUser({
@@ -78,6 +88,10 @@ export default function Register() {
             email: data.email,
           })
         );
+
+        console.log('Updated User State:', store.getState().user.currentUser);
+        localStorage.setItem('accessToken', token);
+        navigate('/');
       } else {
         const errorMessage = response.data.message;
         setFormValidateError(errorMessage);

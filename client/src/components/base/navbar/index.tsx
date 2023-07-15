@@ -1,4 +1,9 @@
 import * as React from 'react';
+// import { useDispatch } from 'react-redux';
+import { logoutUser } from '../../../store/features/userSlice';
+import { useAppSelector, useAppDispatch } from '../../../store/store';
+import MenuIcon from '@mui/icons-material/Menu';
+import AdbIcon from '@mui/icons-material/Adb';
 import {
   AppBar,
   Box,
@@ -12,12 +17,9 @@ import {
   Tooltip,
   MenuItem,
 } from '@mui/material/';
-import MenuIcon from '@mui/icons-material/Menu';
-import AdbIcon from '@mui/icons-material/Adb';
-import { useAppSelector } from '../../../store/store';
 
 const pages = ['Register', 'Login', 'Community'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Account', 'Dashboard'];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -28,7 +30,7 @@ function Navbar() {
   );
 
   // global state
-  const users = useAppSelector((state) => state.user.users);
+  const currentUser = useAppSelector((state) => state.currentUser);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -43,6 +45,15 @@ function Navbar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const dispatch = useAppDispatch();
+  const handleLogout = () => {
+    dispatch(logoutUser());
+
+    localStorage.removeItem('accessToken');
+    handleCloseUserMenu();
+    // Additional logout actions (e.g., redirect to login page)
   };
 
   return (
@@ -163,16 +174,17 @@ function Navbar() {
                   <Typography textAlign='center'>{setting}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem onClick={handleLogout}>
+                <Typography textAlign='center'>Logout</Typography>
+              </MenuItem>
             </Menu>
           </Box>
-          {users ? (
+          {currentUser ? (
             <Box
               sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}
               ml={1}
             >
-              {users.map((user) => (
-                <p key={user.email}>{user.email}</p>
-              ))}
+              <Typography>{currentUser.email}</Typography>
             </Box>
           ) : (
             <></>

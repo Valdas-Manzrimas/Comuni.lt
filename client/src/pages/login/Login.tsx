@@ -1,4 +1,11 @@
-import * as React from 'react';
+import { useState } from 'react';
+import { login } from '../../config/axiosConfig';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setCurrentUser } from '../../store/features/userSlice';
 import {
   Button,
   CssBaseline,
@@ -10,18 +17,61 @@ import {
   Container,
   createTheme,
   ThemeProvider,
+  FormLabel,
 } from '@mui/material';
 
 const theme = createTheme();
 
+const validationSchema = yup.object().shape({
+  email: yup
+    .string()
+    .required('Email is required')
+    .email('Please enter a valid email address'),
+  password: yup.string().required('Password is required'),
+});
+
 export default function Login() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+  const [formValidateError, setFormValidateError] = useState('');
+  const {
+    handleSubmit,
+    formState: { errors },
+    register,
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
+
+  //Redux
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const onSubmit = async (data: any) => {
+    try {
+      const response = await login(data);
+
+      if (response.status === 200) {
+        const user = response.data;
+
+        dispatch(
+          setCurrentUser({
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+          })
+        );
+
+        navigate('/');
+      } else {
+        setFormValidateError('Unknown error occurred during signin.');
+      }
+    } catch (error: any) {
+      console.error('Error logging in:', error);
+      setFormValidateError(
+        error.response?.data?.message || 'An error occurred during signin.'
+      );
+      // Handle the error or display an error message to the user
+    }
   };
 
   return (
@@ -42,7 +92,7 @@ export default function Login() {
           <Box
             component='form'
             noValidate
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
@@ -52,23 +102,36 @@ export default function Login() {
                   fullWidth
                   id='email'
                   label='Email Address'
-                  name='email'
+                  // name='email'
                   autoComplete='email'
                   autoFocus
+                  {...register('email')} // Add this line to use react-hook-form
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name='password'
+                  // name='password'
                   label='Password'
                   type='password'
                   id='password'
                   autoComplete='new-password'
+                  {...register('password')} // Add this line to use react-hook-form
                 />
               </Grid>
             </Grid>
+            <FormLabel
+              error={true}
+              sx={{
+                fontSize: 14,
+                fontWeight: 'bold',
+                width: '100%',
+                textAlign: 'center',
+              }}
+            >
+              {formValidateError}
+            </FormLabel>
             <Button
               type='submit'
               fullWidth

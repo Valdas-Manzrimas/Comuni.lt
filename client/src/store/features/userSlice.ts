@@ -7,15 +7,17 @@ export interface User {
   email: string;
 }
 
-interface UserState {
+export interface UserState {
   users: User[];
+  currentUser: User | null;
 }
 
 const initialState: UserState = {
   users: [],
+  currentUser: null,
 };
 
-export const UserSlice = createSlice({
+export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
@@ -34,8 +36,19 @@ export const UserSlice = createSlice({
         email: action.payload.email,
       });
     },
+    setCurrentUser: (state, action: PayloadAction<User | null>) => {
+      state.currentUser = action.payload;
+      console.log(state.currentUser);
+    },
+    logoutUser: (state) => {
+      state.currentUser = null;
+    },
   },
 });
 
-export default UserSlice.reducer;
-export const { addUser } = UserSlice.actions;
+export default userSlice.reducer;
+export const { addUser, setCurrentUser, logoutUser } = userSlice.actions;
+
+export type UserSliceActionTypes = ReturnType<
+  (typeof userSlice.actions)[keyof typeof userSlice.actions]
+>;

@@ -1,14 +1,42 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { UserSlice } from './features/userSlice';
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+// store/store.ts
 
-export const store = configureStore({
-  reducer: {
-    user: UserSlice.reducer,
-  },
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { userSlice, UserState } from './features/userSlice';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import storage from 'redux-persist/lib/storage';
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
+
+const persistConfig = {
+  key: 'root',
+  storage,
+};
+
+const rootReducer = combineReducers({
+  user: userSlice.reducer,
 });
 
-export const useAppDispatch: () => typeof store.dispatch = useDispatch;
-export const useAppSelector: TypedUseSelectorHook<
-  ReturnType<typeof store.getState>
-> = useSelector;
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
+
+export const persistor = persistStore(store);
+
+export const useAppDispatch = () => useDispatch<typeof store.dispatch>();
+export const useAppSelector: TypedUseSelectorHook<UserState> = useSelector;
