@@ -1,7 +1,11 @@
 import * as React from 'react';
 // import { useDispatch } from 'react-redux';
 import { logoutUser } from '../../../store/features/userSlice';
-import { useAppSelector, useAppDispatch } from '../../../store/store';
+import {
+  useAppSelector,
+  useAppDispatch,
+  RootState,
+} from '../../../store/store';
 import MenuIcon from '@mui/icons-material/Menu';
 import AdbIcon from '@mui/icons-material/Adb';
 import {
@@ -30,12 +34,11 @@ function Navbar() {
   );
 
   // global state
-  // const currentUser = useAppSelector((state) => {
-  //   console.log(state); // Check the state object to see if it contains the currentUser
-  //   return state.currentUser;
-  // });
+  const currentUser = useAppSelector(
+    (state: RootState) => state.user.currentUser
+  );
 
-  const currentUser = useAppSelector((state) => state.currentUser);
+  console.log('currentUser:', currentUser);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -83,7 +86,6 @@ function Navbar() {
           >
             LOGO
           </Typography>
-
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size='large'
@@ -139,7 +141,12 @@ function Navbar() {
           >
             LOGO
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: 'none', md: 'flex' },
+            }}
+          >
             {pages.map((page) => (
               <Button
                 key={page}
@@ -186,7 +193,7 @@ function Navbar() {
           </Box>
           {currentUser && currentUser.email ? (
             <Box
-              sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}
+              // sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}
               ml={1}
             >
               <Typography>{currentUser.email}</Typography>

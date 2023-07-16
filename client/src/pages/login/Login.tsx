@@ -48,7 +48,6 @@ export default function Login() {
   const onSubmit = async (data: any) => {
     try {
       const response = await login(data);
-
       if (response.status === 200) {
         const user = response.data;
 

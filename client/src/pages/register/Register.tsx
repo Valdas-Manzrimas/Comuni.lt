@@ -5,10 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import userSlice, {
-  addUser,
-  setCurrentUser,
-} from '../../store/features/userSlice';
+import { addUser, setCurrentUser } from '../../store/features/userSlice';
 import { store, useAppDispatch } from '../../store/store';
 
 import {
@@ -69,7 +66,6 @@ export default function Register() {
       });
 
       if (response.status === 201) {
-        console.log('User registered successfully!', response.data);
         const { id, firstName, lastName, email, token } = response.data;
 
         dispatch(
@@ -89,8 +85,8 @@ export default function Register() {
           })
         );
 
-        console.log('Updated User State:', store.getState().user.currentUser);
         localStorage.setItem('accessToken', token);
+        reset();
         navigate('/');
       } else {
         const errorMessage = response.data.message;
