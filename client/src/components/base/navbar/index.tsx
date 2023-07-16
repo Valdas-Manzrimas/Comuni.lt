@@ -21,8 +21,10 @@ import {
   Tooltip,
   MenuItem,
 } from '@mui/material/';
+import { Link } from 'react-router-dom';
 
-const pages = ['Register', 'Login', 'Community'];
+const pages = ['Community'];
+const authPages = ['Register', 'Login'];
 const settings = ['Profile', 'Account', 'Dashboard'];
 
 function Navbar() {
@@ -37,8 +39,6 @@ function Navbar() {
   const currentUser = useAppSelector(
     (state: RootState) => state.user.currentUser
   );
-
-  console.log('currentUser:', currentUser);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -66,7 +66,7 @@ function Navbar() {
 
   return (
     <AppBar position='static'>
-      <Container maxWidth='xl'>
+      <Container maxWidth='xl' sx={{ background: '#445566' }}>
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
@@ -160,45 +160,59 @@ function Navbar() {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title='Open settings'>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id='menu-appbar'
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign='center'>{setting}</Typography>
-                </MenuItem>
-              ))}
-              <MenuItem onClick={handleLogout}>
-                <Typography textAlign='center'>Logout</Typography>
-              </MenuItem>
-            </Menu>
+            {currentUser && currentUser.email ? (
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                {' '}
+                <Tooltip title='Open settings'>
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar
+                      alt='Remy Sharp'
+                      src='/static/images/avatar/2.jpg'
+                    />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: '45px' }}
+                  id='menu-appbar'
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settings.map((setting) => (
+                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                      <Typography textAlign='center'>{setting}</Typography>
+                    </MenuItem>
+                  ))}
+                  <MenuItem onClick={handleLogout}>
+                    <Typography textAlign='center'>Logout</Typography>
+                  </MenuItem>
+                </Menu>
+                <Typography ml={1}>{currentUser.firstName}</Typography>
+              </Box>
+            ) : (
+              <>
+                {authPages.map((authPage) => (
+                  <Button
+                    key={authPage}
+                    component={Link}
+                    to={`/${authPage.toLowerCase()}`}
+                    color='inherit'
+                  >
+                    {authPage}
+                  </Button>
+                ))}
+              </>
+            )}
           </Box>
-          {currentUser && currentUser.email ? (
-            <Box
-              // sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}
-              ml={1}
-            >
-              <Typography>{currentUser.email}</Typography>
-            </Box>
-          ) : null}
         </Toolbar>
       </Container>
     </AppBar>
