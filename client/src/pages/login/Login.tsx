@@ -65,7 +65,6 @@ export default function Login() {
         setFormValidateError('Unknown error occurred during signin.');
       }
     } catch (error: any) {
-      console.error('Error logging in:', error);
       setFormValidateError(
         error.response?.data?.message || 'An error occurred during signin.'
       );
@@ -121,7 +120,7 @@ export default function Login() {
               </Grid>
             </Grid>
             <FormLabel
-              error={true}
+              error={!!formValidateError}
               sx={{
                 fontSize: 14,
                 fontWeight: 'bold',

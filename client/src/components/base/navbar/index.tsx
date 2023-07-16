@@ -161,34 +161,24 @@ function Navbar() {
 
           <Box sx={{ flexGrow: 0 }}>
             {currentUser && currentUser.email ? (
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                {' '}
-                <Tooltip title='Open settings'>
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar
-                      alt='Remy Sharp'
-                      src='/static/images/avatar/2.jpg'
-                    />
-                  </IconButton>
-                </Tooltip>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                  position: 'relative',
+                }}
+                onClick={handleOpenUserMenu}
+              >
                 <Menu
-                  sx={{ mt: '45px' }}
                   id='menu-appbar'
                   anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
+                  onClick={(event) => event.stopPropagation()}
                 >
                   {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <MenuItem key={setting}>
                       <Typography textAlign='center'>{setting}</Typography>
                     </MenuItem>
                   ))}
@@ -196,6 +186,24 @@ function Navbar() {
                     <Typography textAlign='center'>Logout</Typography>
                   </MenuItem>
                 </Menu>
+                <Tooltip title='Open settings'>
+                  <IconButton
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      backgroundColor: 'transparent',
+                      cursor: 'pointer',
+                      '&:hover': {
+                        backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                      },
+                    }}
+                  >
+                    <Avatar
+                      alt='Remy Sharp'
+                      src='/static/images/avatar/2.jpg'
+                    />
+                  </IconButton>
+                </Tooltip>
                 <Typography ml={1}>{currentUser.firstName}</Typography>
               </Box>
             ) : (
