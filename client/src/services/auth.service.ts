@@ -1,42 +1,40 @@
-import axios from 'axios';
+// services/authService.ts
 
-const API_URL = 'http://localhost:8080/api/auth/';
+export interface UserData {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  lastLoginIP: string;
+  ipLocation: string;
+}
+const API_URL = 'http://localhost:5000/api/test/user';
 
-class AuthService {
-  login(email: string, password: string) {
-    return axios
-      .post(API_URL + 'login', {
-        email,
-        password,
-      })
-      .then((response) => {
-        if (response.data.accessToken) {
-          localStorage.setItem('user', JSON.stringify(response.data));
-        }
+export const isUserAuthenticated = async (): Promise<UserData | null> => {
+  const token = localStorage.getItem('accessToken');
 
-        return response.data;
-      });
-  }
-
-  logout() {
-    localStorage.removeItem('user');
-  }
-
-  register(email: string, password: string) {
-    return axios.post(API_URL + 'register', {
-      email,
-      password,
-    });
-  }
-
-  getCurrentUser() {
-    const userStr = localStorage.getItem('user');
-    if (userStr) return JSON.parse(userStr);
-
+  if (!token) {
     return null;
   }
-}
 
-const authService = new AuthService();
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `x-access-token ${token}`,
+      },
+    });
 
-export default authService;
+    if (response.ok) {
+      const userData: UserData = await response.json();
+      return userData;
+    } else {
+      localStorage.removeItem('accessToken');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error validating token:', error);
+    return null;
+  }
+};

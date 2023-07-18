@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { login } from '../../config/axiosConfig';
-import { useForm } from 'react-hook-form';
+import { useForm, FieldErrors } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
@@ -100,10 +100,9 @@ export default function Login() {
                   fullWidth
                   id='email'
                   label='Email Address'
-                  // name='email'
                   autoComplete='email'
                   autoFocus
-                  {...register('email')} // Add this line to use react-hook-form
+                  {...register('email')}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -115,7 +114,7 @@ export default function Login() {
                   type='password'
                   id='password'
                   autoComplete='new-password'
-                  {...register('password')} // Add this line to use react-hook-form
+                  {...register('password')}
                 />
               </Grid>
             </Grid>

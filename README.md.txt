@@ -1,5 +1,7 @@
 TASKS 
 
+* Make auth.service.ts working so we could apply it on secure routes. Ex. settings (for now).
+* 
 * Apply "forgot password" functionality. 
 * Create Settings page where user can:
     * Change his password

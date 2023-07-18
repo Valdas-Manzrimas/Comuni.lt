@@ -1,5 +1,4 @@
 import * as React from 'react';
-// import { useDispatch } from 'react-redux';
 import { logoutUser } from '../../../store/features/userSlice';
 import {
   useAppSelector,
@@ -21,11 +20,10 @@ import {
   Tooltip,
   MenuItem,
 } from '@mui/material/';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const pages = ['Community'];
 const authPages = ['Register', 'Login'];
-const settings = ['Profile', 'Account', 'Dashboard'];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -54,14 +52,14 @@ function Navbar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const handleLogout = () => {
     dispatch(logoutUser());
 
     localStorage.removeItem('accessToken');
     handleCloseUserMenu();
-    // Additional logout actions (e.g., redirect to login page)
+    navigate('/');
   };
 
   return (
@@ -177,11 +175,22 @@ function Navbar() {
                   onClose={handleCloseUserMenu}
                   onClick={(event) => event.stopPropagation()}
                 >
-                  {settings.map((setting) => (
-                    <MenuItem key={setting}>
-                      <Typography textAlign='center'>{setting}</Typography>
-                    </MenuItem>
-                  ))}
+                  <MenuItem
+                    onClick={() => {
+                      handleCloseUserMenu();
+                      navigate('/settings');
+                    }}
+                  >
+                    <Typography textAlign='center'>Settings</Typography>
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      handleCloseUserMenu();
+                      navigate('/dashboard');
+                    }}
+                  >
+                    <Typography textAlign='center'>Dashboard</Typography>
+                  </MenuItem>
                   <MenuItem onClick={handleLogout}>
                     <Typography textAlign='center'>Logout</Typography>
                   </MenuItem>

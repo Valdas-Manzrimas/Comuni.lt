@@ -34,10 +34,6 @@ exports.signup = async (req, res) => {
 
     res.status(201).json({
       message: 'User was registered successfully!',
-      id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
       token: token,
     });
   } catch (error) {
@@ -70,8 +66,8 @@ exports.signin = async (req, res) => {
 
     const token = jwt.sign({ id: user.id }, config.secret, {
       algorithm: 'HS256',
-      allowInsecureKeySizes: true,
-      expiresIn: 86400, // 24 hours
+      allowInsecureKeySizes: true, // Insecure?
+      expiresIn: 86400,
     });
 
     const authorities = user.roles.map(

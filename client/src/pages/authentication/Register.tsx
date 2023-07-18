@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { addUser, setCurrentUser } from '../../store/features/userSlice';
-import { store, useAppDispatch } from '../../store/store';
+import { useAppDispatch } from '../../store/store';
 
 import {
   Avatar,
