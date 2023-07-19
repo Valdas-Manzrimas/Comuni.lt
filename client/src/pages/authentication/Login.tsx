@@ -1,3 +1,4 @@
+//Login.tsx
 import { useState } from 'react';
 import { login } from '../../config/axiosConfig';
 import { useForm, FieldErrors } from 'react-hook-form';
@@ -50,6 +51,8 @@ export default function Login() {
       const response = await login(data);
       if (response.status === 200) {
         const user = response.data;
+
+        localStorage.setItem('x-access-token', user.accessToken);
 
         dispatch(
           setCurrentUser({

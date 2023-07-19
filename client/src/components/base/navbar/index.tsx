@@ -57,7 +57,7 @@ function Navbar() {
   const handleLogout = () => {
     dispatch(logoutUser());
 
-    localStorage.removeItem('accessToken');
+    localStorage.removeItem('x-access-token');
     handleCloseUserMenu();
     navigate('/');
   };

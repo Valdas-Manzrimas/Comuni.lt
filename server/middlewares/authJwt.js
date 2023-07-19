@@ -1,3 +1,4 @@
+//authJwt.js
 const jwt = require('jsonwebtoken');
 const config = require('../config/auth.config.js');
 const db = require('../models');
@@ -5,18 +6,16 @@ const User = db.user;
 const Role = db.role;
 
 const verifyToken = (req, res, next) => {
-  let token = req.session.token;
-
+  let token = req.headers['Authorization'];
   if (!token) {
     return res.status(403).send({ message: 'No token provided!' });
   }
-  console.log('verification?', token);
   try {
     const decoded = jwt.verify(token, config.secret);
     req.userId = decoded.id;
+    console.log('req.userId:', req.userId); 
     next();
   } catch (error) {
-    console.error('Error during token verification:', error);
     return res.status(401).send({ message: 'Unauthorized!' });
   }
 };

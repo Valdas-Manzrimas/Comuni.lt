@@ -1,4 +1,4 @@
-// services/authService.ts
+// services/auth.service.ts
 
 export interface UserData {
   id: number;
@@ -8,10 +8,10 @@ export interface UserData {
   lastLoginIP: string;
   ipLocation: string;
 }
-const API_URL = 'http://localhost:5000/api/test/user';
+const API_URL = 'http://localhost:8080/api/test/user';
 
 export const isUserAuthenticated = async (): Promise<UserData | null> => {
-  const token = localStorage.getItem('accessToken');
+  const token = localStorage.getItem('x-access-token');
 
   if (!token) {
     return null;
@@ -19,10 +19,10 @@ export const isUserAuthenticated = async (): Promise<UserData | null> => {
 
   try {
     const response = await fetch(API_URL, {
-      method: 'POST',
+      method: 'GET', 
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `x-access-token ${token}`,
+        'Authorization': `Bearer ${token}`,
       },
     });
 
@@ -30,7 +30,7 @@ export const isUserAuthenticated = async (): Promise<UserData | null> => {
       const userData: UserData = await response.json();
       return userData;
     } else {
-      localStorage.removeItem('accessToken');
+      localStorage.removeItem('x-access-token');
       return null;
     }
   } catch (error) {

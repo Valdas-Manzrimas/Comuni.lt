@@ -1,6 +1,7 @@
 // Settings.tsx
 import React, { useEffect, useState } from 'react';
-import { UserData } from '../../services/auth.service';
+import UserService from '../../services/user.service';
+import { UserData, isUserAuthenticated } from '../../services/auth.service';
 import { useAppSelector, RootState } from '../../store/store';
 
 const Settings = () => {
@@ -12,21 +13,13 @@ const Settings = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch('/api/test/user', {
-          method: 'GET',
-          headers: {
-            Authorization: `x-access-token ${localStorage.getItem(
-              'accessToken'
-            )}`,
-          },
-        });
+        const userData = await isUserAuthenticated();
 
-        if (!response.ok) {
+        if (!userData) {
           throw new Error('Failed to fetch user data');
         }
 
-        const data = await response.json();
-        setUserData(data);
+        setUserData(userData);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }

@@ -1,11 +1,10 @@
+// auth-header.ts
 export default function authHeader() {
-  const userStr = localStorage.getItem('user');
-  let user = null;
-  if (userStr) user = JSON.parse(userStr);
-
-  if (user && user.accessToken) {
-    return { 'x-access-token': user.accessToken };
+  const token = localStorage.getItem('x-access-token');
+  console.log('Token from authHeader:', token); // Add this line to check the token
+  if (token) {
+    return { 'Authorization': `Bearer ${token}` };
   } else {
-    return { 'x-access-token': null };
+    return {};
   }
 }

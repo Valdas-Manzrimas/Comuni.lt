@@ -1,12 +1,13 @@
+import React from 'react'
 import { useState } from 'react';
 import axiosConfig from '../../config/axiosConfig';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { yupResolver } from '@hookform/resolvers/yup/src';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { addUser, setCurrentUser } from '../../store/features/userSlice';
-import { useAppDispatch } from '../../store/store';
+import { store, useAppDispatch } from '../../store/store';
 
 import {
   Avatar,
