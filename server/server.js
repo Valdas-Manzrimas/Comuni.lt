@@ -17,8 +17,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cookieSession({
-    name: 'communa unity',
-    keys: ['COOKIE_SECRET'], // should use as secret environment variable
+    name: 'communa_unity',
+    keys: ['COOKIE_SECRET'],
     httpOnly: true,
   })
 );
