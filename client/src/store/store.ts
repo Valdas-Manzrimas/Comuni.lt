@@ -15,9 +15,8 @@ import {
   REGISTER,
 } from 'redux-persist';
 
-// Define the root state type
 export interface RootState {
-  user: UserState; // Include other state slices if you have them
+  user: UserState;
 }
 
 const persistConfig = {
@@ -27,7 +26,6 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   user: userSlice.reducer,
-  // Add other reducers here if you have them
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

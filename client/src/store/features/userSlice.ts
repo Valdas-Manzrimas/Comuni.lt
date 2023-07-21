@@ -39,7 +39,6 @@ export const userSlice = createSlice({
     },
     setCurrentUser: (state, action: PayloadAction<User | null>) => {
       state.currentUser = action.payload;
-      console.log(state.currentUser);
     },
     logoutUser: (state) => {
       state.currentUser = null;

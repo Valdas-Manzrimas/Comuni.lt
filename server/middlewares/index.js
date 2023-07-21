@@ -1,3 +1,4 @@
+//middlewares/index.js
 const authJwt = require('./authJwt');
 const verifySignUp = require('./verifySignUp');
 

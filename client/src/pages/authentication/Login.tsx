@@ -50,9 +50,8 @@ export default function Login() {
     try {
       const response = await login(data);
       if (response.status === 200) {
-        const user = response.data;
-        localStorage.setItem('x-access-token', user.token);
-
+        const { token, ...user } = response.data;
+        localStorage.setItem('x-access-token', token);
         dispatch(
           setCurrentUser({
             id: user.id,
@@ -70,7 +69,6 @@ export default function Login() {
       setFormValidateError(
         error.response?.data?.message || 'An error occurred during signin.'
       );
-      // Handle the error or display an error message to the user
     }
   };
 

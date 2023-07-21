@@ -1,5 +1,7 @@
 // services/auth.service.ts
 
+import axiosConfig from '../config/axiosConfig';
+
 export interface UserData {
   id: number;
   firstName: string;
@@ -8,7 +10,8 @@ export interface UserData {
   lastLoginIP: string;
   ipLocation: string;
 }
-const API_URL = 'http://localhost:8080/api/test/user';
+
+const API_URL = 'http://localhost:8080/api/user';
 
 export const isUserAuthenticated = async (): Promise<UserData | null> => {
   const token = localStorage.getItem('x-access-token');
@@ -18,23 +21,61 @@ export const isUserAuthenticated = async (): Promise<UserData | null> => {
   }
 
   try {
-    const response = await fetch(API_URL, {
-      method: 'GET', 
+    const response = await axiosConfig.get(API_URL, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        'x-access-token': `${token}`,
       },
     });
 
-    if (response.ok) {
-      const userData: UserData = await response.json();
-      return userData;
+    if (response.status === 200) {
+      return response.data as UserData;
     } else {
-      localStorage.removeItem('x-access-token');
-      return null;
+      throw new Error('Failed to fetch user data');
     }
-  } catch (error) {
-    console.error('Error validating token:', error);
-    return null;
+  } catch (error: any) {
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem('x-access-token');
+      throw new Error('User not authenticated');
+    } else {
+      console.error('Error validating token:', error);
+      throw new Error('An error occurred during user authentication');
+    }
+  }
+};
+
+export const changePassword = async (
+  currentPassword: string,
+  newPassword: string
+): Promise<void> => {
+  const token = localStorage.getItem('x-access-token');
+
+  if (!token) {
+    throw new Error('User not authenticated');
+  }
+
+  try {
+    const response = await axiosConfig.post(
+      '/api/auth/changePassword',
+      {
+        currentPassword,
+        newPassword,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      // Password changed successfully
+      return;
+    } else {
+      throw new Error('Failed to change password');
+    }
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || 'Error changing password');
   }
 };
