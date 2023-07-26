@@ -12,7 +12,7 @@ module.exports = function (app) {
 
   app.get('/api/user/', [authJwt.verifyToken], controller.userBoard);
   app.put(
-    '/api/user/change-password',
+    '/api/user/changePassword',
     [authJwt.verifyToken],
     controller.changePassword
   );

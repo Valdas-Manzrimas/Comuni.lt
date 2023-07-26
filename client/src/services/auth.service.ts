@@ -45,6 +45,7 @@ export const isUserAuthenticated = async (): Promise<UserData | null> => {
 };
 
 export const changePassword = async (
+  id: string,
   currentPassword: string,
   newPassword: string
 ): Promise<void> => {
@@ -55,16 +56,17 @@ export const changePassword = async (
   }
 
   try {
-    const response = await axiosConfig.post(
-      '/api/auth/changePassword',
+    const response = await axiosConfig.put(
+      '/api/user/changePassword',
       {
+        id,
         currentPassword,
         newPassword,
       },
       {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          'x-access-token': `${token}`,
         },
       }
     );

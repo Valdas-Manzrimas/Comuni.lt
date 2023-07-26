@@ -34,7 +34,7 @@ const Settings = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userData = await isUserAuthenticated(); // Pass the axios instance as an argument
+        const userData = await isUserAuthenticated();
 
         if (!userData) {
           setError('User data not found.');
@@ -59,7 +59,7 @@ const Settings = () => {
     }
 
     try {
-      await changePassword(currentPassword, newPassword);
+      await changePassword(currentUser.id, currentPassword, newPassword);
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
