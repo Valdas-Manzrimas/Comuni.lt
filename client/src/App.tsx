@@ -1,6 +1,7 @@
 // App.tsx
 import { ReactElement, useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import './App.css'
 import Home from './pages/home/Home';
 import Login from './pages/authentication/Login';
 import Register from './pages/authentication/Register';
@@ -41,7 +42,7 @@ const App = (): ReactElement => {
   }
 
   return (
-    <>
+    <div className='App' >
       <CssBaseline />
       <Navbar />
       <Routes>
@@ -58,7 +59,7 @@ const App = (): ReactElement => {
           }
         />
       </Routes>
-    </>
+    </div>
   );
 };
 

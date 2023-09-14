@@ -1,3 +1,4 @@
+// Navbar.tsx
 import * as React from 'react';
 import { logoutUser } from '../../../store/features/userSlice';
 import {
@@ -7,6 +8,7 @@ import {
 } from '../../../store/store';
 import MenuIcon from '@mui/icons-material/Menu';
 import AdbIcon from '@mui/icons-material/Adb';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   AppBar,
   Box,
@@ -21,6 +23,7 @@ import {
   MenuItem,
 } from '@mui/material/';
 import { Link, useNavigate } from 'react-router-dom';
+
 
 const pages = ['Community'];
 const authPages = ['Register', 'Login'];
@@ -63,8 +66,14 @@ function Navbar() {
   };
 
   return (
-    <AppBar position='static'>
-      <Container maxWidth='xl' sx={{ background: '#445566' }}>
+    <AppBar position='sticky' 
+    sx={{ backgroundColor: 'rgba(0,0,0,0.8)', 
+    zIndex: 9999, 
+    width: '100vw' }}>
+      <Container sx={{ margin: '0', width: '100%', '@media (min-width: 1200px)': {
+      maxWidth: '100%',
+      width: '100%'
+    },}}>
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
@@ -198,6 +207,7 @@ function Navbar() {
                 <Tooltip title='Open settings'>
                   <IconButton
                     sx={{
+                      transform: 'scale(0.8)',
                       display: 'flex',
                       alignItems: 'center',
                       backgroundColor: 'transparent',
@@ -213,7 +223,7 @@ function Navbar() {
                     />
                   </IconButton>
                 </Tooltip>
-                <Typography ml={1}>{currentUser.firstName}</Typography>
+                <Typography>{currentUser.firstName}</Typography>
               </Box>
             ) : (
               <>

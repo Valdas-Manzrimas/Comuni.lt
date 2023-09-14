@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { UserData, isUserAuthenticated } from '../../services/auth.service';
 import { useAppSelector, RootState } from '../../store/store';
+import bcrypt from 'bcryptjs';
 import {
   Button,
   CssBaseline,
@@ -53,13 +54,24 @@ const Settings = () => {
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!currentUser) {
+      return; 
+    }
+
     if (newPassword !== confirmPassword) {
       setChangePasswordError("New password and confirm password don't match.");
       return;
     }
 
     try {
-      await changePassword(currentUser.id, currentPassword, newPassword);
+      const hashedCurrentPassword = await bcrypt.hash(currentPassword, 8);
+    const hashedNewPassword = await bcrypt.hash(newPassword, 8);
+
+    await changePassword(
+      currentUser.id.toString(),
+      hashedCurrentPassword,
+      hashedNewPassword
+    );
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
@@ -106,6 +118,7 @@ const Settings = () => {
                         fullWidth
                         type='password'
                         label='Current Password'
+                        autoComplete="new-password"
                         value={currentPassword}
                         onChange={(e) => setCurrentPassword(e.target.value)}
                       />

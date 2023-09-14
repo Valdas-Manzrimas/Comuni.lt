@@ -36,7 +36,6 @@ const changePasswordSchema = yup.object().shape({
     .string()
     .required('New password is required')
     .min(6, 'Password must be at least 6 characters long')
-    .max(50, 'Password can be at most 50 characters long'),
 });
 
 exports.changePassword = async (req, res) => {
@@ -47,7 +46,16 @@ exports.changePassword = async (req, res) => {
       return res.status(404).send({ message: 'User not found.' });
     }
 
-    const { newPassword } = req.body;
+    const { currentPassword, newPassword } = req.body;
+
+    const currentPasswordMatch = bcrypt.compareSync(
+      currentPassword,
+      user.password
+    );
+
+    if (!currentPasswordMatch) {
+      return res.status(401).json({ message: 'Current password is incorrect.' });
+    }
 
     try {
       await changePasswordSchema.validate({ newPassword });
