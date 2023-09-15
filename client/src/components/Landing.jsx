@@ -26,10 +26,10 @@ const Landing = ({ classicHeader, darkTheme, handleNavClick }) => {
                   <Typewriter
                     options={{
                       strings: [
-                        "I'm Simone Olivia.",
-                        "I'm a Freelancer.",
-                        "I'm a Photographer.",
-                        "I'm a Designer.",
+                        'This is a BARTER page',
+                        'Here you can exchange',
+                        'Products or services',
+                        'With others',
                       ],
                       autoStart: true,
                       loop: true,
@@ -37,7 +37,7 @@ const Landing = ({ classicHeader, darkTheme, handleNavClick }) => {
                   />
                 </h2>
                 <p className='text-5 text-light mb-4'>
-                  based in Los Angeles, California.
+                  Where the money is not a need
                 </p>
                 <Link
                   to='/login'
