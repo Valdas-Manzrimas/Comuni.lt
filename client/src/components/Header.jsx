@@ -1,58 +1,58 @@
-import React, { useState } from "react";
-import { Tooltip } from "./utils/Tooltip";
-import { Link } from "react-scroll";
+import React, { useState } from 'react';
+import { Tooltip } from './utils/Tooltip';
+import { Link } from 'react-scroll';
 
 const Header = ({ classicHeader, darkTheme, homeRef, handleNavClick }) => {
   const [isNavModalClose, setIsNavModalClose] = useState(true);
   return (
-    <header id="header" className="sticky-top">
+    <header id='header' className='sticky-top'>
       {/* Navbar */}
-      <nav className="primary-menu navbar navbar-expand-lg navbar-dark bg-dark border-bottom-0">
-        <div className="container-fluid position-relative h-100 flex-lg-column ps-3 px-lg-3 pt-lg-3 pb-lg-2">
+      <nav className='primary-menu navbar navbar-expand-lg navbar-dark bg-dark border-bottom-0'>
+        <div className='container-fluid position-relative h-100 flex-lg-column ps-3 px-lg-3 pt-lg-3 pb-lg-2'>
           {/* Logo */}
           <Link
             smooth
             duration={500}
-            style={{ cursor: "pointer" }}
-            to="home"
-            className="mb-lg-auto mt-lg-4"
+            style={{ cursor: 'pointer' }}
+            to='landing'
+            className='mb-lg-auto mt-lg-4'
             onClick={(e) => {
               e.preventDefault();
               setIsNavModalClose(true);
             }}
           >
-            <span className="bg-dark-2 rounded-pill p-2 mb-lg-1 d-none d-lg-inline-block">
+            <span className='bg-dark-2 rounded-pill p-2 mb-lg-1 d-none d-lg-inline-block'>
               <img
-                className="img-fluid rounded-pill d-block"
-                src="images/profile.jpg"
+                className='img-fluid rounded-pill d-block'
+                src='images/profile.jpg'
                 title="I'm Simone"
-                alt="profile"
+                alt='profile'
               />
             </span>
-            <h1 className="text-5 text-white text-center mb-0 d-lg-block">
+            <h1 className='text-5 text-white text-center mb-0 d-lg-block'>
               Simone Olivia
             </h1>
           </Link>
           {/* Logo End */}
           <div
-            id="header-nav"
+            id='header-nav'
             className={
               isNavModalClose
-                ? "collapse navbar-collapse w-100 my-lg-auto "
-                : "show navbar-collapse w-100 my-lg-auto"
+                ? 'collapse navbar-collapse w-100 my-lg-auto '
+                : 'show navbar-collapse w-100 my-lg-auto'
             }
           >
-            <ul className="navbar-nav text-lg-center my-lg-auto py-lg-3">
-              <li className="nav-item">
+            <ul className='navbar-nav text-lg-center my-lg-auto py-lg-3'>
+              <li className='nav-item'>
                 <Link
                   target={homeRef}
-                  className="nav-link "
+                  className='nav-link '
                   smooth
                   duration={500}
-                  style={{ cursor: "pointer" }}
-                  activeClass="active"
+                  style={{ cursor: 'pointer' }}
+                  activeClass='active'
                   spy
-                  to="home"
+                  to='landing'
                   onClick={(e) => {
                     e.preventDefault();
                     setIsNavModalClose(true);
@@ -61,15 +61,15 @@ const Header = ({ classicHeader, darkTheme, homeRef, handleNavClick }) => {
                   Home
                 </Link>
               </li>
-              <li className="nav-item">
+              <li className='nav-item'>
                 <Link
-                  className="nav-link "
+                  className='nav-link '
                   smooth
                   duration={500}
-                  style={{ cursor: "pointer" }}
-                  activeClass="active"
+                  style={{ cursor: 'pointer' }}
+                  activeClass='active'
                   spy
-                  to="about"
+                  to='about'
                   onClick={(e) => {
                     e.preventDefault();
                     setIsNavModalClose(true);
@@ -78,15 +78,15 @@ const Header = ({ classicHeader, darkTheme, homeRef, handleNavClick }) => {
                   About Me
                 </Link>
               </li>
-              <li className="nav-item">
+              <li className='nav-item'>
                 <Link
-                  className="nav-link "
+                  className='nav-link '
                   smooth
                   duration={500}
-                  style={{ cursor: "pointer" }}
-                  activeClass="active"
+                  style={{ cursor: 'pointer' }}
+                  activeClass='active'
                   spy
-                  to="services"
+                  to='services'
                   onClick={(e) => {
                     e.preventDefault();
                     setIsNavModalClose(true);
@@ -95,15 +95,15 @@ const Header = ({ classicHeader, darkTheme, homeRef, handleNavClick }) => {
                   What I Do
                 </Link>
               </li>
-              <li className="nav-item">
+              <li className='nav-item'>
                 <Link
-                  className="nav-link "
+                  className='nav-link '
                   smooth
                   duration={500}
-                  style={{ cursor: "pointer" }}
-                  activeClass="active"
+                  style={{ cursor: 'pointer' }}
+                  activeClass='active'
                   spy
-                  to="resume"
+                  to='resume'
                   onClick={(e) => {
                     e.preventDefault();
                     setIsNavModalClose(true);
@@ -112,15 +112,15 @@ const Header = ({ classicHeader, darkTheme, homeRef, handleNavClick }) => {
                   Resume
                 </Link>
               </li>
-              <li className="nav-item">
+              <li className='nav-item'>
                 <Link
-                  className="nav-link "
+                  className='nav-link '
                   smooth
                   duration={500}
-                  style={{ cursor: "pointer" }}
-                  activeClass="active"
+                  style={{ cursor: 'pointer' }}
+                  activeClass='active'
                   spy
-                  to="portfolio"
+                  to='portfolio'
                   onClick={(e) => {
                     e.preventDefault();
                     setIsNavModalClose(true);
@@ -129,15 +129,15 @@ const Header = ({ classicHeader, darkTheme, homeRef, handleNavClick }) => {
                   Portfolio
                 </Link>
               </li>
-              <li className="nav-item">
+              <li className='nav-item'>
                 <Link
-                  className="nav-link "
+                  className='nav-link '
                   smooth
                   duration={500}
-                  style={{ cursor: "pointer" }}
-                  activeClass="active"
+                  style={{ cursor: 'pointer' }}
+                  activeClass='active'
                   spy
-                  to="testimonial"
+                  to='testimonial'
                   onClick={(e) => {
                     e.preventDefault();
                     setIsNavModalClose(true);
@@ -146,15 +146,15 @@ const Header = ({ classicHeader, darkTheme, homeRef, handleNavClick }) => {
                   Testimonial
                 </Link>
               </li>
-              <li className="nav-item">
+              <li className='nav-item'>
                 <Link
-                  className="nav-link "
+                  className='nav-link '
                   smooth
                   duration={500}
-                  style={{ cursor: "pointer" }}
-                  activeClass="active"
+                  style={{ cursor: 'pointer' }}
+                  activeClass='active'
                   spy
-                  to="contact"
+                  to='contact'
                   onClick={(e) => {
                     e.preventDefault();
                     setIsNavModalClose(true);
@@ -165,48 +165,48 @@ const Header = ({ classicHeader, darkTheme, homeRef, handleNavClick }) => {
               </li>
             </ul>
           </div>
-          <ul className="social-icons social-icons-muted social-icons-sm mt-lg-auto ms-auto ms-lg-0 d-flex">
-            <li className="social-icons-facebook">
-              <Tooltip text="Facebook" placement="top">
+          <ul className='social-icons social-icons-muted social-icons-sm mt-lg-auto ms-auto ms-lg-0 d-flex'>
+            <li className='social-icons-facebook'>
+              <Tooltip text='Facebook' placement='top'>
                 <a
-                  href="http://www.facebook.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href='http://www.facebook.com/'
+                  target='_blank'
+                  rel='noopener noreferrer'
                 >
-                  <i className="fab fa-facebook-f" />
+                  <i className='fab fa-facebook-f' />
                 </a>
               </Tooltip>
             </li>
-            <li className="social-icons-twitter">
-              <Tooltip text="Twitter" placement="top">
+            <li className='social-icons-twitter'>
+              <Tooltip text='Twitter' placement='top'>
                 <a
-                  href="http://www.twitter.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href='http://www.twitter.com/'
+                  target='_blank'
+                  rel='noopener noreferrer'
                 >
-                  <i className="fab fa-twitter" />
+                  <i className='fab fa-twitter' />
                 </a>
               </Tooltip>
             </li>
-            <li className="social-icons-dribbble">
-              <Tooltip text="Dribbble" placement="top">
+            <li className='social-icons-dribbble'>
+              <Tooltip text='Dribbble' placement='top'>
                 <a
-                  href="http://www.dribbble.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href='http://www.dribbble.com/'
+                  target='_blank'
+                  rel='noopener noreferrer'
                 >
-                  <i className="fab fa-dribbble" />
+                  <i className='fab fa-dribbble' />
                 </a>
               </Tooltip>
             </li>
-            <li className="social-icons-github">
-              <Tooltip text="Google" placement="top">
+            <li className='social-icons-github'>
+              <Tooltip text='Google' placement='top'>
                 <a
-                  href="http://www.google.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href='http://www.google.com/'
+                  target='_blank'
+                  rel='noopener noreferrer'
                 >
-                  <i className="fab fa-github" />
+                  <i className='fab fa-github' />
                 </a>
               </Tooltip>
             </li>
@@ -216,10 +216,10 @@ const Header = ({ classicHeader, darkTheme, homeRef, handleNavClick }) => {
               setIsNavModalClose(!isNavModalClose);
             }}
             className={
-              isNavModalClose ? "navbar-toggler" : "navbar-toggler show"
+              isNavModalClose ? 'navbar-toggler' : 'navbar-toggler show'
             }
-            id="navbar-toggler"
-            type="button"
+            id='navbar-toggler'
+            type='button'
           >
             <span />
             <span />

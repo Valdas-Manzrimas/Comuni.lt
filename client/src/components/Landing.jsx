@@ -4,10 +4,7 @@ import Typewriter from 'typewriter-effect';
 
 const Landing = ({ classicHeader, darkTheme, handleNavClick }) => {
   return (
-    <section
-      id='landing
-    '
-    >
+    <section id='landing'>
       <div className='hero-wrap'>
         <div className='hero-mask opacity-8 bg-dark' />
 
@@ -48,7 +45,7 @@ const Landing = ({ classicHeader, darkTheme, handleNavClick }) => {
                 >
                   Sign in
                 </Link>
-                <a
+                {/* <a
                   href='/register'
                   className='btn btn-outline-primary rounded-pill shadow-none mt-2'
                   onClick={(e) => {
@@ -56,7 +53,7 @@ const Landing = ({ classicHeader, darkTheme, handleNavClick }) => {
                   }}
                 >
                   Sign up
-                </a>
+                </a> */}
               </div>
             </div>
           </div>

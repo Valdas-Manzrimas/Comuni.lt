@@ -1,5 +1,4 @@
 import React from 'react';
-import resumeFile from '../documents/resume.pdf';
 const AboutUs = ({ classicHeader, darkTheme }) => {
   return (
     <section id='about' className={'section ' + (darkTheme ? 'bg-dark-1' : '')}>
@@ -59,7 +58,7 @@ const AboutUs = ({ classicHeader, darkTheme }) => {
               href='https://en.wikipedia.org/wiki/Barter'
               className='text-primary'
             >
-              LINK -->!!! Barter system !!!
+              LINK --!!! Barter system !!!
             </a>
             <p className={darkTheme ? 'text-white-50' : ''}>
               Since direct barter does not require payment in money, it can be
