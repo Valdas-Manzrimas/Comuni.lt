@@ -1,24 +1,23 @@
+// config/axiosConfig.js
 import axios from 'axios';
+import { setAccessToken, setCurrentUser } from '../store/features/userSlice';
 
 const instance = axios.create({
   baseURL: 'http://localhost:8080',
 });
 
-instance.interceptors.request.use((config) => {
-  const token = localStorage.getItem('x-access-token');
-  if (token) {
-    config.headers['x-access-token'] = `${token}`;
-  }
-  return config;
-});
-
-export const login = async (data) => {
+export const axiosLogin = async (data, dispatch) => {
   try {
     const response = await instance.post('/api/auth/login', data);
+
     if (response.status === 200) {
-      const { token } = response.data;
-      localStorage.setItem('x-access-token', `${token}`);
+      // Set the access token
+      dispatch(setAccessToken(response.data.token));
+
+      // Set the current user
+      dispatch(setCurrentUser(response.data));
     }
+
     return response;
   } catch (error) {
     throw error;

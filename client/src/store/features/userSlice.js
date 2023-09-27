@@ -1,3 +1,4 @@
+// store/features/userSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 export const userSlice = createSlice({
@@ -5,6 +6,11 @@ export const userSlice = createSlice({
   initialState: {
     users: [],
     currentUser: null,
+    accessToken: null,
+    userPreferences: {
+      theme: 'light',
+      language: 'en',
+    },
   },
   reducers: {
     addUser: (state, action) => {
@@ -13,7 +19,11 @@ export const userSlice = createSlice({
         firstName: action.payload.firstName,
         lastName: action.payload.lastName,
         email: action.payload.email,
+        token: action.payload.token,
       });
+    },
+    setAccessToken: (state, action) => {
+      state.accessToken = action.payload;
     },
     setCurrentUser: (state, action) => {
       state.currentUser = action.payload;
@@ -21,9 +31,23 @@ export const userSlice = createSlice({
     logoutUser: (state) => {
       state.currentUser = null;
     },
+    setTheme: (state, action) => {
+      state.userPreferences.theme = action.payload;
+    },
+    setLanguage: (state, action) => {
+      state.userPreferences.language = action.payload;
+    },
   },
 });
 
 export default userSlice.reducer;
 
-export const { addUser, setCurrentUser, logoutUser } = userSlice.actions;
+export const {
+  addUser,
+  setCurrentUser,
+  setAccessToken,
+  logoutUser,
+  setTheme,
+  setLanguage,
+  rehydrateUser,
+} = userSlice.actions;

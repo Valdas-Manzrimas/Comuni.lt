@@ -53,7 +53,11 @@ function Home() {
     <>
       {isLoading && <PreLoader></PreLoader>}
       <div>
-        <Landing classicHeader={classicHeader} darkTheme={darkTheme}></Landing>
+        <Landing
+          classicHeader={classicHeader}
+          darkTheme={darkTheme}
+          handleNavClick={handleNavClick}
+        ></Landing>
         <AboutUs classicHeader={classicHeader} darkTheme={darkTheme}></AboutUs>
         <Services
           classicHeader={classicHeader}

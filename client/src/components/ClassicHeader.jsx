@@ -1,11 +1,24 @@
-import React from 'react';
+// ClassicHeader.jsx
+import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { Tooltip } from './utils/Tooltip';
 import { Link } from 'react-scroll';
+import { store, useAppDispatch, useAppSelector } from '../store/store';
+import { logoutUser } from '../store/features/userSlice';
 
 const ClassicHeader = ({ handleNavClick }) => {
   const [stickyHeader, setStickyHeader] = useState(false);
   const [isNavModalClose, setIsNavModalClose] = useState(true);
+
+  const dispatch = useAppDispatch();
+  const currentUser = useAppSelector((state) => state.user.currentUser);
+
+  useEffect(() => {
+    console.log('Redux State:', currentUser);
+  }, [currentUser]);
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
 
   const checkScrollTop = () => {
     let header = document.getElementsByClassName('primary-menu');
@@ -29,6 +42,7 @@ const ClassicHeader = ({ handleNavClick }) => {
   return (
     <header id='header' className='sticky-top-slide'>
       {/* Navbar */}
+
       <nav
         className={
           'primary-menu navbar navbar-expand-lg navbar-dark bg-transparent border-bottom-0 sticky-top ' +
@@ -203,23 +217,36 @@ const ClassicHeader = ({ handleNavClick }) => {
               </ul>
             </div>
           </div>
-          <div className='col-auto col-lg-2 d-flex justify-content-end'>
-            <ul className='social-icons social-icons-light'>
-              <li className='social-icons-facebook'>
-                <Tooltip text='Facebook' placement='top'>
-                  <a
-                    href='http://www.facebook.com/'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    <i className='fab fa-facebook-f' />
-                  </a>
-                </Tooltip>
-              </li>
-            </ul>
-          </div>
+          {currentUser && (
+            <div className='navbar-accordion'>
+              <span className='nav-link'>{currentUser.firstName}</span>
+              <div className='dropdown'>
+                <button
+                  className='btn btn-primary dropdown-toggle btn-sm'
+                  type='button'
+                  data-bs-toggle='dropdown'
+                  aria-expanded='false'
+                >
+                  Settings
+                </button>
+                <ul className='dropdown-menu'>
+                  <li>
+                    <a
+                      className='dropdown-item'
+                      href='/'
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          )}
+          {currentUser}
         </div>
       </nav>
+      {console.log('navbar', store.getState())}
       {/* Navbar End */}
     </header>
   );

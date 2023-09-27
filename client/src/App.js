@@ -1,5 +1,5 @@
+// App.js
 import './App.scss';
-import Header from './components/Header';
 import Footer from './components/Footer';
 import { useEffect, useState } from 'react';
 import ClassicHeader from './components/ClassicHeader';
@@ -9,6 +9,7 @@ import Disclaimer from './components/Disclaimer';
 import Login from './components/pages/Login';
 import { Route, Routes } from 'react-router-dom';
 import Home from './components/pages/Home/Home';
+import Landing from './components/Landing';
 
 function App() {
   const classicHeader = commonConfig.classicHeader;
@@ -27,7 +28,15 @@ function App() {
             <Routes>
               <Route path='/' element={<Home />} />
 
-              <Route path='/login' element={<Login />} />
+              <Route
+                path='/login'
+                element={
+                  <Landing
+                    children={<Login darkTheme={darkTheme} />}
+                    darkTheme={darkTheme}
+                  />
+                }
+              />
             </Routes>
           </div>
           <Footer classicHeader={classicHeader} darkTheme={darkTheme}></Footer>
