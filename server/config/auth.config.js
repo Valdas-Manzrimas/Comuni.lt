@@ -7,4 +7,5 @@ const generateRandomSecret = () => {
 
 module.exports = {
   secret: generateRandomSecret(),
+  expiresIn: 86400,
 };

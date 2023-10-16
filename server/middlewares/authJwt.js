@@ -16,7 +16,6 @@ const verifyToken = (req, res, next) => {
     req.userId = decoded.id;
     next();
   } catch (error) {
-    console.log('authJwt', error);
     return res.status(401).send({ message: 'Unauthorized!' });
   }
 };

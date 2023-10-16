@@ -10,12 +10,23 @@ module.exports = function (app) {
 
   app.get('/api/user/all', controller.allAccess);
 
+  app.get(
+    '/api/user/allUsers',
+    [authJwt.verifyToken, authJwt.isAdmin || authJwt.isModerator],
+    controller.getAllUsers
+  );
+  // current user
   app.get('/api/user/', [authJwt.verifyToken], controller.userBoard);
+  // update current user
+  app.put('/api/user/update', [authJwt.verifyToken], controller.updateUser);
+  // change password
   app.put(
     '/api/user/changePassword',
     [authJwt.verifyToken],
     controller.changePassword
   );
+  // delete current user
+  app.delete('/api/user/delete', [authJwt.verifyToken], controller.deleteUser);
 
   app.get(
     '/api/user/mod',
@@ -27,5 +38,11 @@ module.exports = function (app) {
     '/api/user/admin',
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.adminBoard
+  );
+
+  app.put(
+    '/api/user/setrole',
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.setUserRole
   );
 };
